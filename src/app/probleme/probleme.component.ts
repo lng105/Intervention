@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VerifierCaracteresValidator } from '../shared/longueur-minimum/longueur-minimum.component';
 import { ITypeProbleme } from './probleme';
 import { ProblemeService } from './probleme.service';
+import { emailMatcherValidator } from '../shared/longueur-minimum/email-matcher/email-matcher.component';
 
 @Component({
   selector: 'Inter-probleme',
@@ -59,5 +60,20 @@ export class ProblemeComponent implements OnInit {
     telephoneControl.reset(); // Pour enlever les messages d'erreur dûs à dirty, etc..
     telephoneControl.disable();
     
+    if (notifyVia === 'courriel') {
+      courrielGroupControl.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])])
+      courrielControl.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);
+      courrielConfirmationControl.setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);
+      courrielControl.enable();
+      courrielConfirmationControl.enable();
+      } else {
+      if (notifyVia === 'messageTexte') {
+      telephoneControl.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]+')]);
+      telephoneControl.enable();
+      }
+      courrielControl.updateValueAndValidity();
+      courrielConfirmationControl.updateValueAndValidity();
+      telephoneControl.updateValueAndValidity();
+      }
   }
 }
