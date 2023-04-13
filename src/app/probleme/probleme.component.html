@@ -20,35 +20,73 @@
               problemeForm.get('prenom').dirty) &&
               !problemeForm.get('prenom').valid}" />
             </div>
-          </div>
-          <span class="form-text" *ngIf="(problemeForm.get('prenom').touched ||
-problemeForm.get('prenom').dirty) &&
-(problemeForm.get('prenom').errors)">
+            <span class="form-text" *ngIf="(problemeForm.get('prenom').touched ||
+          problemeForm.get('prenom').dirty) &&
+          (problemeForm.get('prenom').errors)">
             <span *ngIf=" problemeForm.get('prenom').errors['required']">
               <small class="text-muted">
                 Merci de saisir votre prénom.
               </small>
             </span>
-            <span *ngIf=" problemeForm.get('prenom').errors['minlength']">
+            <span *ngIf=" problemeForm.get('prenom').errors['maxlength']">
               <small class="text-muted">
                 Veuillez entrer plus de caracteres
               </small>
             </span>
           </span>
-          <span class="form-text" *ngIf="(problemeForm.get('prenom').touched ||
-problemeForm.get('prenom').dirty) &&
-(problemeForm.get('prenom').errors)">
-    <span *ngIf=" problemeForm.get('prenom').errors['required']">
-        <small class="text-muted">
-            Merci de saisir votre prénom.
-        </small>
-    </span>
-    <span *ngIf="problemeForm.get('prenom').errors['nbreCaracteresInsuffisant']">
-        <small class="text-muted">
-            Veuillez entrer plus de caractères.
-        </small>
-    </span>
-</span> 
+            <p></p>
+            <label for="nomId" class="col-md-2 col-form-label text-right">Nom :</label>
+            <div class="col-md-10">
+              <input class="form-control" id="nomId" type="text" placeholder="Votre nom ici (obligatoire)"
+                formControlName="nom" [ngClass]="{'is-valid': (problemeForm.get('nom').touched || 
+              problemeForm.get('nom').dirty) &&
+              problemeForm.get('nom').valid,
+              'is-invalid': (problemeForm.get('nom').touched || 
+              problemeForm.get('nom').dirty) &&
+              !problemeForm.get('nom').valid}" />
+            </div>
+            <span class="form-text" *ngIf="(problemeForm.get('nom').touched ||
+          problemeForm.get('nom').dirty) &&
+          (problemeForm.get('nom').errors)">
+            <span *ngIf=" problemeForm.get('nom').errors['required']">
+              <small class="text-muted">
+                Merci de saisir votre nom de famille.
+              </small>
+            </span>
+            <span *ngIf=" problemeForm.get('nom').errors['maxlength']">
+              <small class="text-muted">
+                Veuillez entrer moins de caracteres
+              </small>
+            </span>
+          </span>
+          </div>
+          <p></p>
+          <div class="form-group row">
+            <label for="noProblemeId" class="col-md-2 col-form-label text-right">Probleme :</label>
+            <div class="col-md-10">
+              <select class="form-control" 
+                id="noProblemeId"
+                formControlName="noProbleme"
+                [ngClass]="{'is-valid': (problemeForm.get('noProbleme').touched || 
+              problemeForm.get('noProbleme').dirty) &&
+              problemeForm.get('noProbleme').valid,
+              'is-invalid': (problemeForm.get('noProbleme').touched || 
+              problemeForm.get('noProbleme').dirty) &&
+              !problemeForm.get('noProbleme').valid}" >
+                <option value="">Selectionner le type de probleme (obligatoire)</option>
+                <option *ngFor="let tp of typesProbleme" [value]="tp.id">{{tp.descriptionTypeProbleme}}</option>
+              </select>
+              <span class="form-text" *ngIf="(problemeForm.get('noProbleme').touched ||
+              problemeForm.get('noProbleme').dirty) &&
+              problemeForm.get('noProbleme').errors">
+              <span *ngIf="problemeForm.get('noProbleme').errors['required']">
+              <small class="text-muted">
+              Merci de sélectionner un type de problème.
+              </small>
+              </span>
+              </span>
+            </div>
+          </div>
         </form>
       </div>
         
