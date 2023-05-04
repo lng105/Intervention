@@ -8,9 +8,8 @@ import { ITypeProbleme } from './probleme';
   providedIn: 'root'
 })
 export class ProblemeService {
+  private baseUrl = 'https://localhost:7144/v1/probleme';
   constructor(private http: HttpClient) { }
-
-  private baseUrl = 'api/typesprobleme';
 
   obtenirTypesProbleme(): Observable<ITypeProbleme[]> {
     return this.http.get<ITypeProbleme[]>(this.baseUrl).pipe(

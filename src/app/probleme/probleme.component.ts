@@ -4,6 +4,9 @@ import { VerifierCaracteresValidator } from '../shared/longueur-minimum/longueur
 import { ITypeProbleme } from './probleme';
 import { ProblemeService } from './probleme.service';
 import { emailMatcherValidator } from '../shared/longueur-minimum/email-matcher/email-matcher.component';
+import { IProbleme } from './declarerProbleme';
+import { Router } from '@angular/router';
+import { ProblemeService1 } from './probleme1.service';
 
 @Component({
   selector: 'Inter-probleme',
@@ -14,9 +17,13 @@ export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
   typesProbleme: ITypeProbleme[];
   errorMessage: String;
+  probleme: IProbleme
+  
   constructor(
     private fb: FormBuilder,
-    private typeproblemeService: ProblemeService
+    private typeproblemeService: ProblemeService,
+    private route: Router,
+    private problemeService: ProblemeService1
   ) {}
 
   ngOnInit() {
@@ -26,7 +33,7 @@ export class ProblemeComponent implements OnInit {
         [VerifierCaracteresValidator.longueurMinimum(3), Validators.required],
       ],
       nom: ['', [Validators.maxLength(50), Validators.required]],
-      noProbleme: ['', Validators.required],
+      noTypeProbleme: ['', Validators.required],
       
       notification: ["pasnotification"],
       courrielGroup: this.fb.group({
@@ -46,8 +53,6 @@ export class ProblemeComponent implements OnInit {
       this.problemeForm.get("notification").valueChanges
       .subscribe(value => this.setNotification(value));
   }
-
-  save(): void {}
 
   setNotification(notifyVia: string): void {
     const courrielGroupControl = this.problemeForm.get('courrielGroup');
@@ -81,5 +86,31 @@ export class ProblemeComponent implements OnInit {
       courrielConfirmationControl.updateValueAndValidity();
       telephoneControl.updateValueAndValidity();
       }
+  }
+
+  save(): void {
+    if (this.problemeForm.dirty && this.problemeForm.valid) {
+        // Copy the form values over the problem object values
+        this.probleme = this.problemeForm.value;
+        this.probleme.id = 0;
+        // Courriel est dans un groupe alors que this.probleme n'a pas de groupe.  Il faut le transférer explicitement.
+         if(this.problemeForm.get('courrielGroup.courriel').value != '')
+        {
+          this.probleme.courriel = this.problemeForm.get('courrielGroup.courriel').value;
+        }
+    
+        this.problemeService.saveProbleme(this.probleme)
+            .subscribe({
+              next: () => this.onSaveComplete(),
+              error: err => this.errorMessage = err
+          })
+    } else if (!this.problemeForm.dirty) {
+        this.onSaveComplete();
+    }
+  }
+  onSaveComplete(): void {
+    // Reset the form to clear the flags
+    this.problemeForm.reset();  // Pour remettre Dirty à false.  Autrement le Route Guard va dire que le formulaire n'est pas sauvegardé
+    this.route.navigate(['/accueil']);
   }
 }

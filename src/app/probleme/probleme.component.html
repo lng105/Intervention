@@ -64,19 +64,19 @@
           <div class="form-group row">
             <label for="noProblemeId" class="col-md-2 col-form-label text-right">Probleme :</label>
             <div class="col-md-10">
-              <select class="form-control" id="noProblemeId" formControlName="noProbleme" [ngClass]="{'is-valid': (problemeForm.get('noProbleme').touched || 
-              problemeForm.get('noProbleme').dirty) &&
-              problemeForm.get('noProbleme').valid,
-              'is-invalid': (problemeForm.get('noProbleme').touched || 
-              problemeForm.get('noProbleme').dirty) &&
-              !problemeForm.get('noProbleme').valid}">
+              <select class="form-control" id="noProblemeId" formControlName="noTypeProbleme" [ngClass]="{'is-valid': (problemeForm.get('noTypeProbleme').touched || 
+              problemeForm.get('noTypeProbleme').dirty) &&
+              problemeForm.get('noTypeProbleme').valid,
+              'is-invalid': (problemeForm.get('noTypeProbleme').touched || 
+              problemeForm.get('noTypeProbleme').dirty) &&
+              !problemeForm.get('noTypeProbleme').valid}">
                 <option value="">Selectionner le type de probleme (obligatoire)</option>
                 <option *ngFor="let tp of typesProbleme" [value]="tp.id">{{tp.descriptionTypeProbleme}}</option>
               </select>
-              <span class="form-text" *ngIf="(problemeForm.get('noProbleme').touched ||
-              problemeForm.get('noProbleme').dirty) &&
-              problemeForm.get('noProbleme').errors">
-                <span *ngIf="problemeForm.get('noProbleme').errors['required']">
+              <span class="form-text" *ngIf="(problemeForm.get('noTypeProbleme').touched ||
+              problemeForm.get('noTypeProbleme').dirty) &&
+              problemeForm.get('noTypeProbleme').errors">
+                <span *ngIf="problemeForm.get('noTypeProbleme').errors['required']">
                   <small class="text-muted">
                     Merci de sélectionner un type de problème.
                   </small>
